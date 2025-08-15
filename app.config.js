@@ -13,6 +13,6 @@ export default ({ config }) => ({
         include: ["react-native-vector-icons"]
       }
     },
-    favicon: "./src/assets/icon.png"
+    favicon: "./public/favicon.png"
   },
 });

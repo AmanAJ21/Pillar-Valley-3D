@@ -17,7 +17,6 @@ import { saveGameSettings, loadGameSettings } from '../utils/storageUtils';
 import { testHermesCompatibility, testProblematicPatterns } from '../utils/hermesTest';
 import { themeManager } from '../utils/themeManager';
 import { HapticFeedback } from '../utils/hapticUtils';
-import FontTest from './FontTest';
 
 // Simplified approach for Hermes compatibility - avoid complex managers
 
@@ -725,11 +724,6 @@ export default function PillarJumpGame() {
         onThemeSelect={handleThemeSelect}
         onClose={() => setShowThemeSelector(false)}
       />
-      
-      {/* Font Test Component - Remove after debugging */}
-      {Platform.OS === 'web' && (
-        <FontTest />
-      )}
     </View>
     </MobileFullscreenWrapper>
   );
