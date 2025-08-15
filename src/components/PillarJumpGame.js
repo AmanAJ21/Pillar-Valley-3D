@@ -747,59 +747,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    width: '100vw',
+    height: '100vh',
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    // Mobile-specific fullscreen styles
-    ...(Platform.OS !== 'web' && {
-      paddingTop: 0,
-      paddingBottom: 0,
-    }),
-    // Web mobile fullscreen styles
-    ...(Platform.OS === 'web' && {
-      minHeight: '100vh',
-      minWidth: '100vw',
-    }),
+    overflow: 'hidden',
+    // Ensure no padding/margin on any platform
+    margin: 0,
+    padding: 0,
   },
   canvas: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
-    right: 0,
-    bottom: 0,
-    // Ensure canvas takes full screen on mobile
-    ...(Platform.OS !== 'web' && {
-      backgroundColor: 'transparent',
-    }),
-    // Web mobile canvas styles
-    ...(Platform.OS === 'web' && {
-      minHeight: '100vh',
-      minWidth: '100vw',
-    }),
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'transparent',
+    zIndex: 1,
   },
   touchArea: {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
-    right: 0,
-    bottom: isSmallScreen ? 100 : 120, // Unified bottom spacing for all platforms
+    width: '100vw',
+    height: '100vh',
     zIndex: 100,
     backgroundColor: 'transparent',
   },
   gameUI: {
-    position: 'absolute',
-    top: Platform.OS === 'web' ? (isSmallScreen ? 30 : 50) : 40,
-    right: isSmallScreen ? 10 : 20,
+    position: 'fixed',
+    top: 'env(safe-area-inset-top, 20px)',
+    right: 20,
     alignItems: 'flex-end',
     pointerEvents: 'box-none',
-    maxWidth: isSmallScreen ? 120 : 150,
+    maxWidth: 150,
+    zIndex: 200,
   },
   scoreContainer: {
     paddingHorizontal: isSmallScreen ? 16 : 24,
@@ -868,23 +853,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inGamePauseButtonContainer: {
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? (isSmallScreen ? 50 : 60) : (isSmallScreen ? 30 : 40),
-    left: isSmallScreen ? 15 : 20,
+    position: 'fixed',
+    bottom: 'env(safe-area-inset-bottom, 40px)',
+    left: 20,
     zIndex: 1000,
   },
 
 
   // Pause screen styles
   pauseOverlay: {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
-    right: 0,
-    bottom: 0,
+    width: '100vw',
+    height: '100vh',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: isSmallScreen ? 12 : (isTablet ? 20 : 16),
+    padding: 20,
     zIndex: 1000,
   },
   pauseContent: {

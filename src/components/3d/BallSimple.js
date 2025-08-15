@@ -6,14 +6,14 @@ import { CONFIG } from '../../config/gameConfig';
 /**
  * Enhanced Ball Component - Beautiful Design with Proper Alignment
  */
-export default function Ball({ 
-  position, 
-  targetPosition, 
-  isJumping, 
-  rotationSpeed, 
-  onJumpComplete, 
-  color, 
-  scale = 1, 
+export default function Ball({
+  position,
+  targetPosition,
+  isJumping,
+  rotationSpeed,
+  onJumpComplete,
+  color,
+  scale = 1,
   isOrbiting = false,
   isProjection = false
 }) {
@@ -24,7 +24,7 @@ export default function Ball({
   // Enhanced sphere geometry for better ball appearance
   const geometry = useMemo(() => {
     return new THREE.SphereGeometry(
-      CONFIG.BALL_RADIUS, 
+      CONFIG.BALL_RADIUS,
       20, // More segments for smoother sphere
       16
     );
@@ -66,14 +66,14 @@ export default function Ball({
       if (position && position.length === 3) {
         meshRef.current.position.set(position[0], position[1], position[2]);
       }
-      
+
       // Pulsing effect for projection
       const pulseScale = scale * (1 + Math.sin(state.clock.elapsedTime * 4) * 0.2);
       meshRef.current.scale.setScalar(pulseScale);
-      
+
       // Gentle rotation
       meshRef.current.rotation.y += delta * 1.0;
-      
+
     } else {
       // Regular ball behavior
       // Snappier rotation with floating effect
@@ -93,17 +93,17 @@ export default function Ball({
           const t = newProgress;
           const startPos = position;
           const endPos = targetPosition;
-          
+
           // Quick parabolic jump with easing
           const easeInOut = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
           const jumpHeight = 4;
-          
+
           const currentX = startPos[0] + (endPos[0] - startPos[0]) * easeInOut;
           const currentZ = startPos[2] + (endPos[2] - startPos[2]) * easeInOut;
           const currentY = startPos[1] + (endPos[1] - startPos[1]) * easeInOut + jumpHeight * Math.sin(Math.PI * t);
-          
+
           meshRef.current.position.set(currentX, currentY, currentZ);
-          
+
           // Add rotation during jump for dynamic effect
           meshRef.current.rotation.x = Math.sin(Math.PI * t) * 0.5;
           meshRef.current.rotation.z = Math.sin(Math.PI * t * 2) * 0.3;
@@ -121,7 +121,7 @@ export default function Ball({
         if (position && position.length === 3) {
           const currentPos = meshRef.current.position;
           const targetPos = new THREE.Vector3(position[0], position[1], position[2]);
-          
+
           // Smooth interpolation for responsive movement
           currentPos.lerp(targetPos, delta * 8);
         }
@@ -148,7 +148,7 @@ export default function Ball({
         castShadow
         receiveShadow
       />
-      
+
       {/* Glow effect - only for non-projection balls */}
       {!isProjection && (
         <mesh

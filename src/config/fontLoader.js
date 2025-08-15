@@ -1,7 +1,11 @@
-import { Platform } from 'react-native';
+// Simplified font loader - no external dependencies
+export const loadVectorIconFonts = async () => {
+  // No external font loading needed - using unicode symbols
+  return Promise.resolve();
+};
 
-// Simple and reliable icon mapping for Material Icons
-const iconMap = {
+// Simple icon mapping (kept for compatibility)
+export const iconMap = {
   'checkmark': 'check',
   'close': 'close',
   'finger-print': 'fingerprint',
@@ -36,48 +40,3 @@ const iconMap = {
   'cut': 'content_cut',
   'paste': 'content_paste',
 };
-
-// Load Material Icons reliably for web
-export const loadVectorIconFonts = async () => {
-  if (Platform.OS === 'web' && typeof document !== 'undefined') {
-    // Check if Material Icons are already loaded
-    if (document.getElementById('material-icons-font')) {
-      return;
-    }
-
-    // Add Material Icons from Google Fonts (most reliable CDN)
-    const link = document.createElement('link');
-    link.id = 'material-icons-font';
-    link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-    link.rel = 'stylesheet';
-    link.crossOrigin = 'anonymous';
-    document.head.appendChild(link);
-
-    // Add CSS for proper Material Icons styling
-    const style = document.createElement('style');
-    style.id = 'material-icons-style';
-    style.textContent = `
-      .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;
-        line-height: 1;
-        letter-spacing: normal;
-        text-transform: none;
-        display: inline-block;
-        white-space: nowrap;
-        word-wrap: normal;
-        direction: ltr;
-        -webkit-font-feature-settings: 'liga';
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-        -moz-osx-font-smoothing: grayscale;
-        font-feature-settings: 'liga';
-      }
-    `;
-    document.head.appendChild(style);
-  }
-};
-
-export { iconMap };

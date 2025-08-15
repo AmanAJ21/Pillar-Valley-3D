@@ -21,7 +21,7 @@ export default function App() {
         // Simulate loading time for demonstration
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (e) {
-        console.warn(e);
+        // Font loading error handled gracefully
       } finally {
         // Tell the application to render
         setAppIsReady(true);

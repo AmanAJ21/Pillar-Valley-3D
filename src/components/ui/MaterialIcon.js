@@ -1,19 +1,66 @@
 import React from 'react';
 import { Text, Platform } from 'react-native';
-import { iconMap } from '../../config/fontLoader';
 
 /**
- * Material Icons Component for Web
- * Provides reliable icon rendering using Google's Material Icons
+ * Simple Icon Component - Uses Unicode symbols for reliable rendering
  */
 const MaterialIcon = ({ name, size = 24, color = '#000', style, ...props }) => {
-  // Convert Ionicons name to Material Icons name using our mapping
-  const materialName = iconMap[name] || name;
+  // Simple unicode fallbacks that work everywhere
+  const iconMap = {
+    'check': '✓',
+    'checkmark': '✓',
+    'close': '×',
+    'finger-print': '👆',
+    'fingerprint': '👆',
+    'color-palette': '🎨',
+    'palette': '🎨',
+    'keypad': '⌨',
+    'dialpad': '⌨',
+    'home': '🏠',
+    'settings': '⚙',
+    'search': '🔍',
+    'menu': '☰',
+    'arrow-back': '←',
+    'arrow_back': '←',
+    'arrow-forward': '→',
+    'arrow_forward': '→',
+    'add': '+',
+    'remove': '−',
+    'play': '▶',
+    'play_arrow': '▶',
+    'pause': '⏸',
+    'stop': '⏹',
+    'refresh': '↻',
+    'download': '⬇',
+    'upload': '⬆',
+    'share': '↗',
+    'heart': '♥',
+    'favorite': '♥',
+    'star': '★',
+    'bookmark': '🔖',
+    'lock': '🔒',
+    'unlock': '🔓',
+    'lock_open': '🔓',
+    'eye': '👁',
+    'visibility': '👁',
+    'eye-off': '🙈',
+    'visibility_off': '🙈',
+    'edit': '✏',
+    'delete': '🗑',
+    'save': '💾',
+    'copy': '📋',
+    'content_copy': '📋',
+    'cut': '✂',
+    'content_cut': '✂',
+    'paste': '📄',
+    'content_paste': '📄',
+  };
+
+  const displayText = iconMap[name] || name;
   
   if (Platform.OS === 'web') {
     return (
       <span
-        className="material-icons"
         style={{
           fontSize: size,
           color: color,
@@ -22,39 +69,15 @@ const MaterialIcon = ({ name, size = 24, color = '#000', style, ...props }) => {
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
           ...style
         }}
         {...props}
       >
-        {materialName}
+        {displayText}
       </span>
     );
   }
-  
-  // For native platforms, fall back to text representation
-  const unicodeFallbacks = {
-    'check': '✓',
-    'close': '×',
-    'fingerprint': '👆',
-    'palette': '🎨',
-    'dialpad': '⌨',
-    'home': '🏠',
-    'settings': '⚙',
-    'search': '🔍',
-    'menu': '☰',
-    'arrow_back': '←',
-    'arrow_forward': '→',
-    'add': '+',
-    'remove': '−',
-    'play_arrow': '▶',
-    'pause': '⏸',
-    'stop': '⏹',
-    'refresh': '↻',
-    'favorite': '♥',
-    'star': '★',
-  };
-
-  const displayText = unicodeFallbacks[materialName] || materialName;
   
   return (
     <Text
