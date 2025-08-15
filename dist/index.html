@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Pillar Valley 3D Game" />
+    
+    <!-- Preload Google Fonts Material Icons for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Fallback fonts CSS -->
+    <style>
+        /* Ensure Material Icons load properly */
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Loading screen */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .loading-text {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+    
+    <title>Pillar Valley 3D</title>
+<link rel="icon" href="/favicon.ico" /></head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <!-- Loading screen -->
+    <div id="loading">
+        <div class="loading-text">Loading Pillar Valley 3D...</div>
+    </div>
+    
+    <div id="root"></div>
+    
+    <!-- Remove loading screen once app loads -->
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    loading.style.display = 'none';
+                }
+            }, 1000);
+        });
+    </script>
+<script src="/_expo/static/js/web/AppEntry-583476980a85ba8b71a8d0f63a655862.js" defer></script>
+</body>
+</html>
