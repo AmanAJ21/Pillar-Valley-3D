@@ -1,46 +1,14 @@
 import React from 'react';
 import { Text, Platform } from 'react-native';
+import { iconMap } from '../../config/fontLoader';
 
-// Material Icons mapping for common Ionicons
-const ioniconsToMaterial = {
-  'checkmark': 'check',
-  'close': 'close',
-  'finger-print': 'fingerprint',
-  'color-palette': 'palette',
-  'keypad': 'dialpad',
-  'home': 'home',
-  'settings': 'settings',
-  'search': 'search',
-  'menu': 'menu',
-  'arrow-back': 'arrow_back',
-  'arrow-forward': 'arrow_forward',
-  'add': 'add',
-  'remove': 'remove',
-  'play': 'play_arrow',
-  'pause': 'pause',
-  'stop': 'stop',
-  'refresh': 'refresh',
-  'download': 'download',
-  'upload': 'upload',
-  'share': 'share',
-  'heart': 'favorite',
-  'star': 'star',
-  'bookmark': 'bookmark',
-  'lock': 'lock',
-  'unlock': 'lock_open',
-  'eye': 'visibility',
-  'eye-off': 'visibility_off',
-  'edit': 'edit',
-  'delete': 'delete',
-  'save': 'save',
-  'copy': 'content_copy',
-  'cut': 'content_cut',
-  'paste': 'content_paste',
-};
-
+/**
+ * Material Icons Component for Web
+ * Provides reliable icon rendering using Google's Material Icons
+ */
 const MaterialIcon = ({ name, size = 24, color = '#000', style, ...props }) => {
-  // Convert Ionicons name to Material Icons name
-  const materialName = ioniconsToMaterial[name] || name;
+  // Convert Ionicons name to Material Icons name using our mapping
+  const materialName = iconMap[name] || name;
   
   if (Platform.OS === 'web') {
     return (
@@ -51,6 +19,9 @@ const MaterialIcon = ({ name, size = 24, color = '#000', style, ...props }) => {
           color: color,
           lineHeight: 1,
           userSelect: 'none',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           ...style
         }}
         {...props}
@@ -61,6 +32,30 @@ const MaterialIcon = ({ name, size = 24, color = '#000', style, ...props }) => {
   }
   
   // For native platforms, fall back to text representation
+  const unicodeFallbacks = {
+    'check': '✓',
+    'close': '×',
+    'fingerprint': '👆',
+    'palette': '🎨',
+    'dialpad': '⌨',
+    'home': '🏠',
+    'settings': '⚙',
+    'search': '🔍',
+    'menu': '☰',
+    'arrow_back': '←',
+    'arrow_forward': '→',
+    'add': '+',
+    'remove': '−',
+    'play_arrow': '▶',
+    'pause': '⏸',
+    'stop': '⏹',
+    'refresh': '↻',
+    'favorite': '♥',
+    'star': '★',
+  };
+
+  const displayText = unicodeFallbacks[materialName] || materialName;
+  
   return (
     <Text
       style={[
@@ -75,7 +70,7 @@ const MaterialIcon = ({ name, size = 24, color = '#000', style, ...props }) => {
       ]}
       {...props}
     >
-      {materialName}
+      {displayText}
     </Text>
   );
 };
