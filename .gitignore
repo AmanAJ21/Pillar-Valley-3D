@@ -58,7 +58,6 @@ buck-out/
 
 # Expo
 .expo/
-web-build/
 
 # Native
 *.orig.*
