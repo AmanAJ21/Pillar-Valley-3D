@@ -1,0 +1,13 @@
+node_modules
+.expo
+.expo-shared
+*.log
+.DS_Store
+android
+ios
+.git
+.gitignore
+README.md
+app.json
+babel.config.js
+metro.config.js
