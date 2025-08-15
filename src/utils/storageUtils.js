@@ -10,7 +10,7 @@ export const saveGameSettings = (settings) => {
       localStorage.setItem(STORAGE_KEYS.GAME_SETTINGS, JSON.stringify(settings));
     }
   } catch (error) {
-    console.warn('Failed to save game settings:', error);
+    // Failed to save game settings
   }
 };
 
@@ -21,7 +21,7 @@ export const loadGameSettings = () => {
       return saved ? JSON.parse(saved) : {};
     }
   } catch (error) {
-    console.warn('Failed to load game settings:', error);
+    // Failed to load game settings
   }
   return {};
 };

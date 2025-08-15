@@ -46,7 +46,7 @@ export class WorldOffsetController {
       try {
         callback(this.worldState);
       } catch (error) {
-        console.warn('Error in world offset listener:', error);
+        // Error in world offset listener
       }
     });
   }
@@ -57,7 +57,7 @@ export class WorldOffsetController {
   setTargetOffset(offset, isJumping = false) {
     // Validate coordinates
     if (!this.isValidCoordinate(offset.x) || !this.isValidCoordinate(offset.z)) {
-      console.warn('Invalid target offset coordinates, using fallback');
+      // Invalid target offset coordinates, using fallback
       offset = { ...this.worldState.lastValidOffset };
     }
 
@@ -94,7 +94,7 @@ export class WorldOffsetController {
       this.worldState.offset.x = newX;
       this.worldState.offset.z = newZ;
     } else {
-      console.warn('Invalid interpolated coordinates, stopping transition');
+      // Invalid interpolated coordinates, stopping transition
       this.worldState.isTransitioning = false;
       return this.worldState.offset;
     }
@@ -140,7 +140,7 @@ export class WorldOffsetController {
       
       return true;
     } catch (error) {
-      console.error('Error resetting world offset:', error);
+      // Error resetting world offset
       return false;
     }
   }

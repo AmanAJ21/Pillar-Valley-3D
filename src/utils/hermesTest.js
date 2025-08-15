@@ -20,20 +20,11 @@ export const testHermesCompatibility = () => {
     const [first, ...rest] = testArray;
     const { a, b } = testObject;
     
-    console.log('Hermes compatibility test passed:', {
-      spreadArray,
-      spreadObject,
-      templateString,
-      result,
-      first,
-      rest,
-      a,
-      b
-    });
+    // Hermes compatibility test passed
     
     return true;
   } catch (error) {
-    console.error('Hermes compatibility test failed:', error);
+    // Hermes compatibility test failed
     return false;
   }
 };
@@ -57,18 +48,11 @@ export const testProblematicPatterns = () => {
     const filtered = testArray.filter(x => x > 2);
     const mapped = testArray.map(x => x * 2);
     
-    console.log('Problematic patterns test passed:', {
-      timestamp,
-      randomValue,
-      sliced,
-      substring,
-      filtered,
-      mapped
-    });
+    // Problematic patterns test passed
     
     return true;
   } catch (error) {
-    console.error('Problematic patterns test failed:', error);
+    // Problematic patterns test failed
     return false;
   }
 };

@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { CONFIG } from '../config/gameConfig';
 import { themeManager } from '../utils/themeManager';
+import { checkBallCollision } from '../utils/gameUtils';
 import Ball from './3d/BallSimple';
 import Pillar from './3d/PillarSimple';
 
@@ -14,14 +15,17 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
   const [targetPosition, setTargetPosition] = useState([0, CONFIG.PILLAR_HEIGHT + CONFIG.BALL_RADIUS + 0.5, 0]);
   const [isJumping, setIsJumping] = useState(false);
   const [worldOffset, setWorldOffset] = useState({ x: 0, z: 0 });
+  const [projectionBallPosition, setProjectionBallPosition] = useState(null);
+  const [showProjection, setShowProjection] = useState(false);
 
   // Reset world offset when game starts
   useEffect(() => {
     if (game.playing && game.score === 0) {
-      console.log('Resetting world offset for new game');
+      // Resetting world offset for new game
       setWorldOffset({ x: 0, z: 0 });
     }
   }, [game.playing, game.score]);
+  
   const [currentTheme, setCurrentTheme] = useState(themeManager.getCurrentTheme());
 
   // Theme manager listener
@@ -36,8 +40,6 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
       themeManager.removeListener(handleThemeChange);
     };
   }, []);
-
-
 
   // Handle jump to new pillar with smooth world transition
   useEffect(() => {
@@ -54,11 +56,12 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
       
       setTargetPosition(targetPos);
       setIsJumping(true);
+      setShowProjection(false); // Hide projection during jump
       
       // Quick world offset update for immediate camera movement
       setWorldOffset({ x: -target.x, z: -target.z });
     }
-  }, [game.targetPillarIndex, game.pillars]); // Removed worldOffset to prevent infinite loop
+  }, [game.targetPillarIndex, game.pillars]);
 
   // Handle jump completion
   const handleJumpComplete = useCallback(() => {
@@ -84,6 +87,41 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
     return ballPos;
   }, [game.ballAngle, game.playing, game.pillars, worldOffset]);
 
+  // Calculate projection ball position when user clicks
+  const calculateProjection = useCallback(() => {
+    if (!game.playing || !game.pillars.length || isJumping) return;
+
+    const currentPillar = game.pillars[0];
+    const rad = game.ballAngle * Math.PI / 180;
+    const radius = CONFIG.ROTATION_RADIUS;
+    
+    // Current ball position
+    const currentBallPos = [
+      currentPillar.x + Math.cos(rad) * radius,
+      CONFIG.PILLAR_HEIGHT + CONFIG.BALL_RADIUS + 1.5,
+      currentPillar.z + Math.sin(rad) * radius
+    ];
+
+    // Find the pillar the ball would hit
+    const hitIndex = checkBallCollision(game);
+    if (hitIndex > 0 && game.pillars[hitIndex]) {
+      const targetPillar = game.pillars[hitIndex];
+      const projectionPos = [
+        targetPillar.x + worldOffset.x,
+        CONFIG.PILLAR_HEIGHT + CONFIG.BALL_RADIUS + 0.5,
+        targetPillar.z + worldOffset.z
+      ];
+      
+      setProjectionBallPosition(projectionPos);
+      setShowProjection(true);
+      
+      // Hide projection after 2 seconds
+      setTimeout(() => {
+        setShowProjection(false);
+      }, 2000);
+    }
+  }, [game, worldOffset, isJumping]);
+
   // Enhanced game update loop with ball shrinking
   useFrame((state, delta) => {
     if (game.playing && !game.paused && setGame) {
@@ -107,7 +145,7 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
           // Ball shrinking: 5% reduction every 360° rotation
           if (newBallScale > 0.2) { // Minimum scale of 20%
             newBallScale = Math.max(0.2, prevGame.ballScale * 0.95); // 5% shrink
-            console.log(`Rotation ${newRotationCount}: Ball scale now ${(newBallScale * 100).toFixed(1)}%`);
+            // Ball scale updated after rotation
           }
         }
         
@@ -120,6 +158,15 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
       });
     }
   });
+
+  // Expose calculateProjection function to parent component
+  useEffect(() => {
+    if (game.showProjection) {
+      calculateProjection();
+      // Reset the flag
+      setGame(prevGame => ({ ...prevGame, showProjection: false }));
+    }
+  }, [game.showProjection, calculateProjection, setGame]);
 
   if (!game.playing) return null;
 
@@ -183,7 +230,7 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
         />
       ))}
 
-      {/* Only show the orbiting ball - remove static ball for clarity */}
+      {/* Orbiting ball */}
       <Ball
         position={orbitingBallPosition}
         targetPosition={targetPosition}
@@ -194,6 +241,17 @@ export default function GameScene({ game, onPillarReached, setGame, endGame }) {
         scale={game.ballScale}
         isOrbiting={true}
       />
+
+      {/* Projection ball - shows where the ball will land */}
+      {showProjection && projectionBallPosition && (
+        <Ball
+          position={projectionBallPosition}
+          color={currentTheme.ball}
+          scale={0.8}
+          isOrbiting={false}
+          isProjection={true}
+        />
+      )}
     </>
   );
 }

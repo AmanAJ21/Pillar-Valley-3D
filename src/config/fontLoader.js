@@ -101,7 +101,7 @@ export const loadVectorIconFonts = async () => {
     link.rel = 'stylesheet';
     document.head.appendChild(link);
 
-    console.log('Vector icon fonts loaded with Material Icons fallback');
+    // Vector icon fonts loaded with Material Icons fallback
     
     // Set fallback flag to use our improved icon mapping
     window.useIconFallback = true;

@@ -29,9 +29,9 @@ export default function AdSense({
         // AdSense already loaded, just push the ad
         try {
           (window.adsbygoogle = window.adsbygoogle || []).push({});
-          console.log('AdSense ad pushed successfully');
+          // AdSense ad pushed successfully
         } catch (error) {
-          console.warn('AdSense push failed:', error);
+          // AdSense push failed
         }
         return;
       }
@@ -45,20 +45,20 @@ export default function AdSense({
         
         script.onload = () => {
           isLoaded.current = true;
-          console.log('AdSense script loaded successfully');
+          // AdSense script loaded successfully
           try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
           } catch (error) {
-            console.warn('AdSense initialization failed:', error);
+            // AdSense initialization failed
           }
         };
 
         script.onerror = () => {
-          console.warn('Failed to load AdSense script');
+          // Failed to load AdSense script
         };
 
         document.head.appendChild(script);
-        console.log('AdSense script injected into head');
+        // AdSense script injected into head
       }
     };
 

@@ -13,7 +13,7 @@ try {
     Haptics = require('expo-haptics');
   }
 } catch (error) {
-  console.warn('Haptics not available:', error);
+  // Haptics not available
 }
 
 export const HapticFeedback = {
@@ -25,7 +25,7 @@ export const HapticFeedback = {
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       } catch (error) {
-        console.warn('Light haptic failed:', error);
+        // Light haptic failed
       }
     }
   },
@@ -38,7 +38,7 @@ export const HapticFeedback = {
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       } catch (error) {
-        console.warn('Medium haptic failed:', error);
+        // Medium haptic failed
       }
     }
   },
@@ -51,7 +51,7 @@ export const HapticFeedback = {
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       } catch (error) {
-        console.warn('Heavy haptic failed:', error);
+        // Heavy haptic failed
       }
     }
   },
@@ -64,7 +64,7 @@ export const HapticFeedback = {
       try {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } catch (error) {
-        console.warn('Success haptic failed:', error);
+        // Success haptic failed
       }
     }
   },
@@ -77,7 +77,7 @@ export const HapticFeedback = {
       try {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       } catch (error) {
-        console.warn('Warning haptic failed:', error);
+        // Warning haptic failed
       }
     }
   },
@@ -90,7 +90,7 @@ export const HapticFeedback = {
       try {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       } catch (error) {
-        console.warn('Error haptic failed:', error);
+        // Error haptic failed
       }
     }
   },
@@ -103,7 +103,7 @@ export const HapticFeedback = {
       try {
         Haptics.selectionAsync();
       } catch (error) {
-        console.warn('Selection haptic failed:', error);
+        // Selection haptic failed
       }
     }
   }

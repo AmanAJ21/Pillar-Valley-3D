@@ -22,33 +22,32 @@ export default function ThemeSelector({
 }) {
   const [selectedIndex, setSelectedIndex] = useState(currentThemeIndex);
 
-  console.log('ThemeSelector render:', { visible, currentThemeIndex, selectedIndex, themesCount: COLOR_SCHEMES.length }); // Debug log
+  // ThemeSelector render
 
   if (!visible) return null;
 
-  // Debug: Log first few themes
-  console.log('First 3 themes:', COLOR_SCHEMES.slice(0, 3));
+  // Debug: First few themes available
 
   const handleThemeSelect = (index) => {
-    console.log('Theme selected:', index); // Debug log
+    // Theme selected
     setSelectedIndex(index);
     
     // Enhanced haptic feedback
     try {
       HapticFeedback.selection();
     } catch (error) {
-      console.warn('Haptic feedback failed:', error);
+      // Haptic feedback failed
     }
     
     // Set theme using theme manager
     try {
       const success = themeManager.setTheme(index);
-      console.log('Theme set success:', success); // Debug log
+      // Theme set success
       if (success) {
         onThemeSelect(index);
       }
     } catch (error) {
-      console.error('Failed to set theme:', error);
+      // Failed to set theme
     }
   };
 
@@ -64,7 +63,7 @@ export default function ThemeSelector({
           { borderColor: isSelected ? colorToHex(theme.ball) : 'rgba(142, 142, 147, 0.2)' }
         ]}
         onPress={() => {
-          console.log('Theme card pressed:', index); // Debug log
+          // Theme card pressed
           handleThemeSelect(index);
         }}
         activeOpacity={0.6}
@@ -171,7 +170,7 @@ export default function ThemeSelector({
           nestedScrollEnabled={true}
         >
           {COLOR_SCHEMES.map((theme, index) => {
-            console.log('Rendering theme:', index, theme.name); // Debug log
+            // Rendering theme
             return renderThemePreview(theme, index);
           })}
         </ScrollView>

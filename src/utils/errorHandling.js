@@ -54,13 +54,7 @@ export class ErrorLogger {
         // Update error counts
         this.errorCounts[type] = (this.errorCounts[type] || 0) + 1;
 
-        // Log to console with appropriate level
-        const logMethod = this.getLogMethod(severity);
-        logMethod('[' + type + '] ' + errorEntry.message, {
-            severity,
-            context,
-            id: errorEntry.id
-        });
+        // Error logged internally (console logging removed for production)
 
         // Return error ID for tracking
         return errorEntry.id;
@@ -73,23 +67,7 @@ export class ErrorLogger {
         return 'err_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
     }
 
-    /**
-     * Get appropriate console method based on severity
-     */
-    getLogMethod(severity) {
-        switch (severity) {
-            case ERROR_SEVERITY.CRITICAL:
-                return console.error;
-            case ERROR_SEVERITY.HIGH:
-                return console.error;
-            case ERROR_SEVERITY.MEDIUM:
-                return console.warn;
-            case ERROR_SEVERITY.LOW:
-                return console.log;
-            default:
-                return console.log;
-        }
-    }
+    // Console logging methods removed for production
 
     /**
      * Get error statistics

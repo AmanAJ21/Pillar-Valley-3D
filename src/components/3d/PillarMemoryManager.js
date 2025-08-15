@@ -119,7 +119,7 @@ export class PillarMemoryManager {
       }
       
     } catch (error) {
-      console.warn('Error cleaning up pillar instance:', error);
+      // Error cleaning up pillar instance
     }
   }
 
@@ -156,7 +156,7 @@ export class PillarMemoryManager {
       this.disposedInstances.clear();
       
     } catch (error) {
-      console.warn('Error during resource cleanup:', error);
+      // Error during resource cleanup
     }
   }
 
@@ -210,7 +210,7 @@ export class PillarMemoryManager {
       };
 
     } catch (error) {
-      console.error('Error during force cleanup:', error);
+      // Error during force cleanup
     }
   }
 
@@ -271,7 +271,7 @@ export class PillarMemoryManager {
       }
       
     } catch (error) {
-      console.warn('Error during pool optimization:', error);
+      // Error during pool optimization
     }
   }
 

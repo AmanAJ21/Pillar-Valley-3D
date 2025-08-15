@@ -187,7 +187,7 @@ export class MobilePerformanceOptimizer {
       settings.qualityLevel = 'low';
     }
     
-    console.log('Performance: Quality reduced to', settings.qualityLevel);
+    // Performance: Quality reduced
   }
 
   /**
@@ -221,7 +221,7 @@ export class MobilePerformanceOptimizer {
       settings.qualityLevel = 'high';
     }
     
-    console.log('Performance: Quality increased to', settings.qualityLevel);
+    // Performance: Quality increased
   }
 
   /**

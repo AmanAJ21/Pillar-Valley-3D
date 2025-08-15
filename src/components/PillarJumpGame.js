@@ -30,12 +30,12 @@ const isSmallScreen = screenWidth < 375 || screenHeight < 667;
 export default function PillarJumpGame() {
   // Test Hermes compatibility on component mount
   useEffect(() => {
-    console.log('Testing Hermes compatibility...');
+    // Testing Hermes compatibility
     try {
       testHermesCompatibility();
       testProblematicPatterns();
     } catch (error) {
-      console.warn('Hermes test failed:', error);
+      // Hermes test failed
     }
   }, []);
 
@@ -81,10 +81,11 @@ export default function PillarJumpGame() {
         targetPillarIndex: 0,
         timeOnCurrentPillar: 0,
         lastThemeChangeScore: 0,
-        rotationCount: 0 // Track completed 360° rotations
+        rotationCount: 0,
+        showProjection: false
       };
     } catch (error) {
-      console.warn('Error loading game state, using defaults:', error);
+      // Error loading game state, using defaults
       return {
         playing: false,
         paused: false,
@@ -98,7 +99,8 @@ export default function PillarJumpGame() {
         targetPillarIndex: 0,
         timeOnCurrentPillar: 0,
         lastThemeChangeScore: 0,
-        rotationCount: 0 // Track completed 360° rotations
+        rotationCount: 0,
+        showProjection: false
       };
     }
   });
@@ -230,7 +232,7 @@ export default function PillarJumpGame() {
       HapticFeedback.success();
 
       // Reset state managers for new game - simplified for Hermes compatibility
-      console.log('Starting new game with theme:', currentTheme.name);
+      // Starting new game with theme
 
       setGame(prevGame => ({
         playing: true,
@@ -244,11 +246,12 @@ export default function PillarJumpGame() {
         pillars: pillars,
         targetPillarIndex: 0,
         timeOnCurrentPillar: 0,
-        lastThemeChangeScore: 0, // Track when theme last changed
-        rotationCount: 0 // Reset rotation counter
+        lastThemeChangeScore: 0,
+        rotationCount: 0,
+        showProjection: false
       }));
     } catch (error) {
-      console.error('Error starting game:', error);
+      // Error starting game
       HapticFeedback.error();
       // Fallback to basic game start
       setGame(prevGame => ({
@@ -296,11 +299,21 @@ export default function PillarJumpGame() {
         targetPillarIndex: hitIndex
       }));
     } catch (error) {
-      console.error('Error during jump:', error);
+      // Error during jump
       HapticFeedback.error();
       endGame();
     }
   }, [game, endGame]);
+
+  // Show projection on click/tap (separate from jump)
+  const showProjection = useCallback(() => {
+    if (!game.playing || game.paused) return;
+
+    setGame(prevGame => ({
+      ...prevGame,
+      showProjection: true
+    }));
+  }, [game.playing, game.paused]);
 
   const togglePause = useCallback(() => {
     if (!game.playing) return;
@@ -308,11 +321,11 @@ export default function PillarJumpGame() {
   }, [game.playing]);
 
   const changeTheme = useCallback((themeIndex) => {
-    console.log('changeTheme called with:', themeIndex); // Debug log
+    // changeTheme called
     if (themeIndex !== undefined) {
       // Set specific theme
       const success = themeManager.setTheme(themeIndex);
-      console.log('Theme set result:', success); // Debug log
+      // Theme set result
       if (success) {
         const newTheme = themeManager.getCurrentTheme();
         // Theme change haptic
@@ -330,14 +343,14 @@ export default function PillarJumpGame() {
       }
     } else {
       // Show theme selector
-      console.log('Opening theme selector'); // Debug log
+      // Opening theme selector
       HapticFeedback.light();
       setShowThemeSelector(true);
     }
   }, []);
 
   const handleThemeSelect = useCallback((themeIndex) => {
-    console.log('handleThemeSelect called with:', themeIndex); // Debug log
+    // handleThemeSelect called
     changeTheme(themeIndex);
     setShowThemeSelector(false);
   }, [changeTheme]);
@@ -360,7 +373,7 @@ export default function PillarJumpGame() {
 
         // Validate new pillars array - simplified for Hermes compatibility
         if (newPillars.length === 0) {
-          console.warn('Invalid pillar array generated, keeping previous pillars');
+          // Invalid pillar array generated, keeping previous pillars
           return prevGame;
         }
 
@@ -412,7 +425,7 @@ export default function PillarJumpGame() {
           lastThemeChangeScore: newLastThemeChangeScore
         };
       } catch (error) {
-        console.error('Error in onPillarReached:', error);
+        // Error in onPillarReached
         // Return previous game state on error
         return prevGame;
       }
@@ -459,7 +472,7 @@ export default function PillarJumpGame() {
 
   useEffect(() => {
     const handleError = (error) => {
-      console.warn('Game rendering error:', error);
+      // Game rendering error
       if ((error.message && error.message.includes('WebGL')) || (error.message && error.message.includes('three'))) {
         setRenderError(true);
       }
@@ -568,11 +581,12 @@ export default function PillarJumpGame() {
         </View>
       )}
 
-      {/* Touch area for jumping */}
+      {/* Touch area for jumping and projection */}
       {game.playing && !game.paused && (
         <TouchableOpacity
           style={styles.touchArea}
-          onPress={jump}
+          onPressIn={showProjection} // Show projection when touch starts
+          onPress={jump} // Jump when touch ends
           activeOpacity={1}
         />
       )}
@@ -692,7 +706,7 @@ export default function PillarJumpGame() {
             <Text style={[styles.pauseInstructions, { color: colorToHex(currentTheme.ball) }]}>
               {Platform.OS === 'web' ?
                 'P: Resume • ESC: Pause • SPACE: Jump • T: Change Theme' :
-                'Use buttons to control the game • Tap anywhere to jump • Themes change every 10 points'
+                'Touch and hold to see projection • Release to jump • Themes change every 10 points'
               }
             </Text>
           </View>

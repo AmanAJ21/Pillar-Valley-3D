@@ -8,7 +8,7 @@ try {
     AsyncStorage = require('@react-native-async-storage/async-storage').default;
   }
 } catch (error) {
-  console.warn('AsyncStorage not available:', error);
+  // AsyncStorage not available
 }
 
 /**
@@ -21,7 +21,7 @@ class ThemeManager {
     this.listeners = [];
     // Load saved theme asynchronously
     this.loadSavedTheme().catch(error => {
-      console.warn('Failed to load saved theme in constructor:', error);
+      // Failed to load saved theme
     });
   }
 
@@ -47,7 +47,7 @@ class ThemeManager {
         }
       }
     } catch (error) {
-      console.warn('Failed to load saved theme:', error);
+      // Failed to load saved theme
     }
   }
 
@@ -66,7 +66,7 @@ class ThemeManager {
         await AsyncStorage.setItem('pillarValley_selectedTheme', themeValue);
       }
     } catch (error) {
-      console.warn('Failed to save theme:', error);
+      // Failed to save theme
     }
   }
 
@@ -163,7 +163,7 @@ class ThemeManager {
       try {
         this.listeners[i](currentTheme, this.currentThemeIndex);
       } catch (error) {
-        console.warn('Error in theme listener:', error);
+        // Error in theme listener
       }
     }
   }

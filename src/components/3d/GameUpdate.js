@@ -31,13 +31,13 @@ export default function GameUpdate({ game, setGame, endGame }) {
         // Ball shrinking: 5% reduction every 360° rotation
         if (newScale > 0.2) { // Minimum scale of 20%
           newScale = Math.max(0.2, prevGame.ballScale * 0.95); // 5% shrink
-          console.log(`Rotation ${newRotationCount}: Ball scale now ${(newScale * 100).toFixed(1)}%`);
+          // Ball scale updated after rotation
         }
       }
 
       // End game if ball becomes too small
       if (newScale <= 0.2) {
-        console.log('Game over: Ball too small');
+        // Game over: Ball too small
         endGame();
         return prevGame;
       }

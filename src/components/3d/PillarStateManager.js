@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { CONFIG } from '../../config/gameConfig';
 
 /**
@@ -14,7 +13,7 @@ export class PillarStateManager {
       isTransitioning: false,
       renderingState: 'initializing'
     };
-    
+
     this.listeners = [];
     this.lastValidOffset = { x: 0, z: 0 };
   }
@@ -46,7 +45,7 @@ export class PillarStateManager {
       try {
         callback(this.state);
       } catch (error) {
-        console.warn('Error in state listener:', error);
+        // Error in state listener
       }
     });
   }
@@ -58,7 +57,7 @@ export class PillarStateManager {
     try {
       // Store previous state for cleanup
       const previousState = { ...this.state };
-      
+
       // Reset to initial state
       this.state = {
         pillars: [],
@@ -67,17 +66,17 @@ export class PillarStateManager {
         isTransitioning: false,
         renderingState: 'initializing'
       };
-      
+
       this.lastValidOffset = { x: 0, z: 0 };
-      
+
       // Cleanup previous state resources
       this.cleanupPreviousState(previousState);
-      
+
       this.notifyListeners();
-      
+
       return true;
     } catch (error) {
-      console.error('Error resetting pillar state:', error);
+      // Error resetting pillar state
       return false;
     }
   }
@@ -87,28 +86,28 @@ export class PillarStateManager {
    */
   validatePillarArray(pillars) {
     if (!Array.isArray(pillars)) {
-      console.warn('Pillars is not an array');
+      // Pillars is not an array
       return false;
     }
 
     for (let i = 0; i < pillars.length; i++) {
       const pillar = pillars[i];
-      
+
       // Check required properties
       if (typeof pillar.x !== 'number' || typeof pillar.z !== 'number' || typeof pillar.r !== 'number') {
-        console.warn('Invalid pillar at index ' + i + ':', pillar);
+        // Invalid pillar at index
         return false;
       }
-      
+
       // Check for NaN or infinite values
       if (!this.isValidCoordinate(pillar.x) || !this.isValidCoordinate(pillar.z) || !this.isValidCoordinate(pillar.r)) {
-        console.warn('Invalid coordinates in pillar at index ' + i + ':', pillar);
+        // Invalid coordinates in pillar
         return false;
       }
-      
+
       // Check reasonable bounds
       if (pillar.r <= 0 || pillar.r > 20) {
-        console.warn('Invalid radius in pillar at index ' + i + ':', pillar.r);
+        // Invalid radius in pillar
         return false;
       }
     }
@@ -121,7 +120,7 @@ export class PillarStateManager {
    */
   updatePillars(newPillars) {
     if (!this.validatePillarArray(newPillars)) {
-      console.error('Invalid pillar array, keeping previous state');
+      // Invalid pillar array, keeping previous state
       return false;
     }
 
@@ -136,14 +135,14 @@ export class PillarStateManager {
    */
   updateWorldOffset(offset) {
     if (!this.isValidCoordinate(offset.x) || !this.isValidCoordinate(offset.z)) {
-      console.warn('Invalid world offset coordinates, using last valid offset');
+      // Invalid world offset coordinates, using last valid offset
       offset = { ...this.lastValidOffset };
     }
 
     this.state.targetWorldOffset = { ...offset };
     this.state.isTransitioning = true;
     this.lastValidOffset = { ...offset };
-    
+
     this.notifyListeners();
   }
 
@@ -156,13 +155,13 @@ export class PillarStateManager {
     }
 
     this.state.worldOffset = { ...offset };
-    
+
     // Check if we've reached the target
     const threshold = 0.01;
-    const reachedTarget = 
+    const reachedTarget =
       Math.abs(this.state.worldOffset.x - this.state.targetWorldOffset.x) < threshold &&
       Math.abs(this.state.worldOffset.z - this.state.targetWorldOffset.z) < threshold;
-    
+
     if (reachedTarget && this.state.isTransitioning) {
       this.state.isTransitioning = false;
       this.notifyListeners();
@@ -185,13 +184,13 @@ export class PillarStateManager {
       if (previousState.pillars) {
         previousState.pillars.length = 0;
       }
-      
+
       // Reset any cached calculations
       this.cachedDistances = null;
       this.cachedLODLevels = null;
-      
+
     } catch (error) {
-      console.warn('Error during state cleanup:', error);
+      // Error during state cleanup
     }
   }
 
