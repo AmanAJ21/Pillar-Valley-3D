@@ -670,7 +670,7 @@ export default function PillarJumpGame() {
           <TouchButton
             icon="pause"
             variant="primary"
-            size="medium"
+            size="small"
             onPress={togglePause}
             style={{
               backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -820,13 +820,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    width: '95vw',
-    height: '95vh',
-    maxWidth: '95vw',
-    maxHeight: '95vh',
-    position: 'fixed',
-    top: '2.5vh',
-    left: '2.5vw',
+    width: '98vw',
+    height: '98vh',
+    maxWidth: '98vw',
+    maxHeight: '98vh',
+    position: 'relative',
     overflow: 'hidden',
     margin: 0,
     padding: 0,
@@ -836,10 +834,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '95vw',
-    height: '95vh',
-    maxWidth: '95vw',
-    maxHeight: '95vh',
+    width: '100%',
+    height: '100%',
     backgroundColor: 'transparent',
     zIndex: 1,
     boxSizing: 'border-box',
@@ -848,19 +844,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '95vw',
-    height: '95vh',
+    width: '100%',
+    height: '100%',
     zIndex: 100,
     backgroundColor: 'transparent',
   },
   gameUI: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 15,
+    right: 15,
     alignItems: 'flex-end',
     pointerEvents: 'box-none',
     maxWidth: 120,
     zIndex: 200,
+    // Ensure it stays within container
+    maxHeight: '40%',
   },
   scoreContainer: {
     paddingHorizontal: 12,
@@ -930,9 +928,12 @@ const styles = StyleSheet.create({
   },
   inGamePauseButtonContainer: {
     position: 'absolute',
-    bottom: 15,
-    left: 15,
+    bottom: '5%', // Use percentage for better responsive positioning
+    left: '5%',   // Use percentage for better responsive positioning
     zIndex: 1000,
+    // Ensure it stays within container bounds
+    maxWidth: 50,
+    maxHeight: 50,
   },
 
 
@@ -941,11 +942,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '95vw',
-    height: '95vh',
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: 15,
     zIndex: 1000,
     boxSizing: 'border-box',
   },
