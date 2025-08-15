@@ -81,15 +81,53 @@
     
     <div id="root"></div>
     
-    <!-- Remove loading screen once app loads -->
+    <!-- Enhanced loading screen with error handling -->
     <script>
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loading = document.getElementById('loading');
-                if (loading) {
+        // Remove loading screen with better error handling
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            if (loading) {
+                loading.style.opacity = '0';
+                loading.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
                     loading.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // Multiple fallbacks to ensure loading screen is removed
+        window.addEventListener('load', function() {
+            setTimeout(hideLoading, 1000);
+        });
+
+        // Fallback for React app mount
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(hideLoading, 2000);
+        });
+
+        // Ultimate fallback
+        setTimeout(hideLoading, 5000);
+
+        // Check if React root is populated
+        const checkReactMount = setInterval(() => {
+            const root = document.getElementById('root');
+            if (root && root.children.length > 0) {
+                clearInterval(checkReactMount);
+                setTimeout(hideLoading, 500);
+            }
+        }, 100);
+
+        // Error handling for failed loads
+        window.addEventListener('error', function(e) {
+            console.error('Loading error:', e);
+            const loading = document.getElementById('loading');
+            if (loading) {
+                const loadingText = loading.querySelector('.loading-text');
+                if (loadingText) {
+                    loadingText.textContent = 'Loading failed. Please refresh the page.';
+                    loadingText.style.color = '#ff6b6b';
                 }
-            }, 1000);
+            }
         });
     </script>
 </body>

@@ -28,15 +28,35 @@ const isSmallScreen = screenWidth < 375 || screenHeight < 667;
 // Removed unused variables for cleaner code
 
 export default function PillarJumpGame() {
+  // Add loading state to prevent black screen
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
   // Test Hermes compatibility on component mount
   useEffect(() => {
-    // Testing Hermes compatibility
-    try {
-      testHermesCompatibility();
-      testProblematicPatterns();
-    } catch (error) {
-      // Hermes test failed
-    }
+    const initializeGame = async () => {
+      try {
+        console.log('Initializing Pillar Valley 3D...');
+        
+        // Testing Hermes compatibility
+        testHermesCompatibility();
+        testProblematicPatterns();
+        
+        console.log('Game compatibility tests passed');
+        
+        // Simulate initialization time
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        console.log('Game initialization complete');
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Game initialization error:', error);
+        setLoadError(error.message || 'Failed to initialize game');
+        setIsLoading(false);
+      }
+    };
+
+    initializeGame();
   }, []);
 
   // Theme manager listener
@@ -488,6 +508,48 @@ export default function PillarJumpGame() {
     };
   }, []);
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: 'white', textAlign: 'center', fontSize: 16, padding: 20 }}>
+          Loading Pillar Valley 3D...
+        </Text>
+      </View>
+    );
+  }
+
+  // Show load error
+  if (loadError) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: '#ff6b6b', textAlign: 'center', fontSize: 16, padding: 20, marginBottom: 10 }}>
+          Failed to load game
+        </Text>
+        <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, padding: 20, opacity: 0.7 }}>
+          {loadError}
+        </Text>
+        {Platform.OS === 'web' && (
+          <TouchableOpacity 
+            onPress={() => window.location.reload()}
+            style={{
+              backgroundColor: '#007AFF',
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              borderRadius: 8,
+              marginTop: 10
+            }}
+          >
+            <Text style={{ color: 'white', fontSize: 14, fontWeight: '600' }}>
+              Refresh Page
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  }
+
+  // Show render error
   if (renderError) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
@@ -502,42 +564,53 @@ export default function PillarJumpGame() {
   return (
     <MobileFullscreenWrapper>
       <View style={styles.container}>
-      {/* 3D Canvas */}
-      <Canvas
-        camera={{
-          position: [0, CONFIG.CAMERA.Y, CONFIG.CAMERA.Z],
-          fov: CONFIG.CAMERA.FOV,
-          near: 0.1,
-          far: 200
-        }}
-        style={styles.canvas}
-        shadows={false}
-        gl={{
-          antialias: false,
-          alpha: false,
-          powerPreference: "default",
-          precision: 'mediump',
-          preserveDrawingBuffer: false,
-          failIfMajorPerformanceCaveat: false
-        }}
-        dpr={Platform.OS === 'web' ? Math.min((typeof window !== 'undefined' && window.devicePixelRatio) || 1, 2) : Math.min(2, 1.5)}
-        frameloop="always"
-        performance={{
-          min: Platform.OS === 'web' ? 0.8 : 0.3,
-          max: 1,
-          debounce: Platform.OS === 'web' ? 200 : 100
-        }}
-        dpr={1}
-        frameloop="always"
-      >
-        <color attach="background" args={[currentTheme.bg]} />
-        <GameScene
-          game={game}
-          onPillarReached={onPillarReached}
-          setGame={setGame}
-          endGame={endGame}
-        />
-      </Canvas>
+      {/* 3D Canvas with error handling */}
+      <React.Suspense fallback={
+        <View style={[styles.canvas, { justifyContent: 'center', alignItems: 'center' }]}>
+          <Text style={{ color: 'white', fontSize: 16 }}>Loading 3D Scene...</Text>
+        </View>
+      }>
+        <Canvas
+          camera={{
+            position: [0, CONFIG.CAMERA.Y, CONFIG.CAMERA.Z],
+            fov: CONFIG.CAMERA.FOV,
+            near: 0.1,
+            far: 200
+          }}
+          style={styles.canvas}
+          shadows={false}
+          gl={{
+            antialias: false,
+            alpha: false,
+            powerPreference: "default",
+            precision: 'mediump',
+            preserveDrawingBuffer: false,
+            failIfMajorPerformanceCaveat: false
+          }}
+          dpr={1}
+          frameloop="always"
+          performance={{
+            min: 0.5,
+            max: 1,
+            debounce: 200
+          }}
+          onCreated={(state) => {
+            console.log('Canvas created successfully');
+          }}
+          onError={(error) => {
+            console.error('Canvas error:', error);
+            setRenderError(true);
+          }}
+        >
+          <color attach="background" args={[currentTheme.bg]} />
+          <GameScene
+            game={game}
+            onPillarReached={onPillarReached}
+            setGame={setGame}
+            endGame={endGame}
+          />
+        </Canvas>
+      </React.Suspense>
 
       {/* Enhanced Score Display */}
       {game.playing && (
