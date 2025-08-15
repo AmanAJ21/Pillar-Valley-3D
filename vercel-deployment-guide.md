@@ -175,15 +175,34 @@ Configuration Format Fix
 **Problem:** Complex regex patterns in header sources can cause validation errors in Vercel.
 
 **Solution:** 
-- Replaced complex regex `/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))` 
-- Used multiple simple glob patterns instead:
-  - `/**/*.js` - JavaScript files
-  - `/**/*.css` - CSS files  
-  - `/**/*.(png|jpg|jpeg|gif|ico|svg)` - Image files
-  - `/**/*.(woff|woff2|ttf|eot)` - Font files
+- Replaced complex regex and invalid glob patterns
+- Used proper Vercel regex patterns:
+  - `/.*\\.js$` - JavaScript files
+  - `/.*\\.css$` - CSS files  
+  - `/.*\\.(png|jpg|jpeg|gif|ico|svg)$` - Image files
+  - `/.*\\.(woff|woff2|ttf|eot)$` - Font files
 
 **Benefits:**
 - ✅ Valid Vercel configuration
 - ✅ Better pattern matching
 - ✅ More reliable caching
 - ✅ Easier to maintain
+## 📝 V
+ercel Pattern Syntax Notes
+
+**Important:** Vercel header patterns use specific regex syntax:
+
+**❌ Invalid Patterns:**
+- `/**/*.js` (glob patterns not supported)
+- `/(.*\\.(js|css))` (complex regex can fail)
+
+**✅ Valid Patterns:**
+- `/.*\\.js$` (proper regex with escaped dots)
+- `/_expo/(.*)` (simple capture groups)
+- `/static/(.*)` (path-based patterns)
+
+**Best Practices:**
+- Use simple regex patterns
+- Escape special characters with `\\`
+- End patterns with `$` for exact matches
+- Test patterns before deployment
