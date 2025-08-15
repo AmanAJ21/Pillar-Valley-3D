@@ -8,7 +8,7 @@ Jump from pillar to pillar in this addictive 3D arcade game! Test your timing an
 
 ```bash
 # Clone and install
-git clone <your-repository-url>
+git clone https://github.com/AmanAJ21/Pillar-Valley-3D.git
 cd game
 npm install
 
@@ -48,7 +48,7 @@ Before running this project, make sure you have the following installed:
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repository-url>
+   git clone https://github.com/AmanAJ21/Pillar-Valley-3D.git
    cd game
    ```
 
