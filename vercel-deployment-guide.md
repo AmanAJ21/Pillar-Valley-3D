@@ -114,3 +114,39 @@ vercel
 # Check deployment status
 vercel ls
 ```
+
+## 🔧 Framework Settings Override Fix
+
+If you see "Configuration Settings in the current Production deployment differ from your current Project Settings":
+
+### **Solution Steps:**
+
+1. **Go to Vercel Dashboard** → Your Project → Settings → General
+
+2. **Override Framework Detection:**
+   - Framework Preset: `Other` (not auto-detected)
+   - Click "Override" if needed
+
+3. **Build & Development Settings:**
+   ```
+   Build Command: npm run vercel-build
+   Output Directory: web-build  
+   Install Command: npm install
+   Development Command: npm run dev
+   ```
+
+4. **Apply Override:**
+   - Click "Override" next to each setting that differs
+   - Save the changes
+
+5. **Redeploy:**
+   - Go to Deployments tab
+   - Click "Redeploy" on the latest deployment
+   - Or push a new commit to trigger deployment
+
+### **Configuration Files Updated:**
+- ✅ `vercel.json` - Added explicit build commands
+- ✅ `package.json` - Added dev script
+- ✅ `.vercel/project.json` - Project-specific settings
+
+This ensures your project uses the correct build configuration consistently.
