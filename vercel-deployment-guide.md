@@ -52,11 +52,12 @@ EXPO_PUBLIC_ENV=production
 ## ⚙️ Key Configuration Files
 
 ### vercel.json
-- Static build configuration
-- SPA routing setup
+- Modern Vercel configuration format
+- SPA routing with rewrites (not legacy routes)
 - Caching headers for performance
 - Security headers
 - CORS configuration
+- No conflicts between routes/headers
 
 ### package.json Scripts
 - `vercel-build`: Production build command
@@ -150,3 +151,20 @@ If you see "Configuration Settings in the current Production deployment differ f
 - ✅ `.vercel/project.json` - Project-specific settings
 
 This ensures your project uses the correct build configuration consistently.
+## 🚨 
+Configuration Format Fix
+
+**Issue Fixed:** "If `rewrites`, `redirects`, `headers`, `cleanUrls` or `trailingSlash` are used, then `routes` cannot be present."
+
+**Solution:** 
+- Converted from legacy `routes` + `builds` format to modern Vercel configuration
+- Uses `rewrites` instead of `routes` for SPA routing
+- Removed `builds` array (handled automatically)
+- Kept all caching and security headers
+- No more configuration conflicts
+
+**Benefits:**
+- ✅ Modern Vercel configuration format
+- ✅ Better performance and caching
+- ✅ No deployment warnings
+- ✅ Cleaner configuration structure
