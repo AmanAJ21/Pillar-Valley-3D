@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Pillar Valley 3D Game" />
     
@@ -14,45 +14,61 @@
     
     <!-- Optimized styles for game -->
     <style>
-        /* Optimized game viewport - prevents overflow */
+        /* Mobile-optimized game viewport */
         html, body {
             margin: 0;
             padding: 0;
-            width: 100vw;
-            height: 100vh;
-            max-width: 100vw;
-            max-height: 100vh;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             position: fixed;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
             -webkit-overflow-scrolling: touch;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
             -webkit-tap-highlight-color: transparent;
             background: #000;
             box-sizing: border-box;
+            /* Mobile-specific fixes */
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+        
+        /* Mobile viewport handling */
+        @supports (height: 100dvh) {
+            html, body {
+                height: 100dvh;
+            }
         }
         
         #root {
-            width: 98vw;
-            height: 98vh;
-            max-width: 98vw;
-            max-height: 98vh;
+            width: 100%;
+            height: 100%;
             position: fixed;
-            top: 1vh;
-            left: 1vw;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             overflow: hidden;
             box-sizing: border-box;
+            /* Ensure proper mobile rendering */
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
         
-        /* Optimized loading screen */
+        /* Mobile-optimized loading screen */
         #loading {
             position: fixed;
-            top: 1vh;
-            left: 1vw;
-            width: 98vw;
-            height: 98vh;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
             background: #000;
             display: flex;
             justify-content: center;
@@ -66,6 +82,28 @@
             font-size: 14px;
             color: #fff;
             text-align: center;
+        }
+        
+        /* Mobile-specific optimizations */
+        @media screen and (max-width: 768px) {
+            html, body, #root {
+                height: 100vh !important;
+                height: 100dvh !important; /* Dynamic viewport height for mobile */
+            }
+            
+            /* Prevent mobile browser UI from affecting layout */
+            @supports (height: 100dvh) {
+                html, body, #root {
+                    height: 100dvh !important;
+                }
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            html, body, #root {
+                height: 100vh !important;
+            }
         }
     </style>
     

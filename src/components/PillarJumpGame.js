@@ -149,11 +149,12 @@ export default function PillarJumpGame() {
       const originalBodyStyle = document.body.style.cssText;
       const originalHtmlStyle = document.documentElement.style.cssText;
       
+      // Mobile-optimized styles
       document.body.style.cssText = `
         margin: 0;
         padding: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         overflow: hidden;
         position: fixed;
         top: 0;
@@ -164,19 +165,22 @@ export default function PillarJumpGame() {
         -webkit-user-select: none;
         -webkit-touch-callout: none;
         -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-text-size-adjust: 100%;
       `;
       
       document.documentElement.style.cssText = `
         margin: 0;
         padding: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         overflow: hidden;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
+        touch-action: manipulation;
       `;
 
       // Prevent zoom on double tap
@@ -199,14 +203,31 @@ export default function PillarJumpGame() {
       document.addEventListener('contextmenu', preventContextMenu, { passive: false });
       document.addEventListener('selectstart', preventContextMenu, { passive: false });
 
-      // Handle orientation changes and resize
+      // Enhanced mobile orientation and resize handling
       const handleOrientationChange = () => {
-        // Force viewport recalculation
-        setTimeout(() => {
+        // Multiple attempts to fix mobile viewport issues
+        const fixViewport = () => {
           window.scrollTo(0, 0);
-          document.body.style.height = window.innerHeight + 'px';
-          document.documentElement.style.height = window.innerHeight + 'px';
-        }, 100);
+          
+          // Use different height calculations for better mobile support
+          const vh = window.innerHeight;
+          const vw = window.innerWidth;
+          
+          document.body.style.height = vh + 'px';
+          document.body.style.width = vw + 'px';
+          document.documentElement.style.height = vh + 'px';
+          document.documentElement.style.width = vw + 'px';
+          
+          // Force repaint
+          document.body.style.transform = 'translateZ(0)';
+          document.documentElement.style.transform = 'translateZ(0)';
+        };
+        
+        // Multiple timing attempts for different devices
+        setTimeout(fixViewport, 50);
+        setTimeout(fixViewport, 150);
+        setTimeout(fixViewport, 300);
+        setTimeout(fixViewport, 500);
       };
 
       window.addEventListener('orientationchange', handleOrientationChange);
@@ -661,6 +682,8 @@ export default function PillarJumpGame() {
           onPressIn={showProjection} // Show projection when touch starts
           onPress={jump} // Jump when touch ends
           activeOpacity={1}
+          delayPressIn={0} // Immediate response for mobile
+          delayPressOut={0} // Immediate response for mobile
         />
       )}
 
@@ -820,15 +843,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    width: '98vw',
-    height: '98vh',
-    maxWidth: '98vw',
-    maxHeight: '98vh',
+    width: '100%',
+    height: '100%',
     position: 'relative',
     overflow: 'hidden',
     margin: 0,
     padding: 0,
-    boxSizing: 'border-box',
+    ...(Platform.OS === 'web' && {
+      minHeight: '100vh',
+      minWidth: '100vw',
+    }),
   },
   canvas: {
     position: 'absolute',
@@ -838,7 +862,10 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'transparent',
     zIndex: 1,
-    boxSizing: 'border-box',
+    ...(Platform.OS === 'web' && {
+      touchAction: 'none',
+      userSelect: 'none',
+    }),
   },
   touchArea: {
     position: 'absolute',
@@ -848,17 +875,24 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 100,
     backgroundColor: 'transparent',
+    // Mobile-optimized touch handling
+    ...(Platform.OS === 'web' && {
+      touchAction: 'manipulation',
+      WebkitTouchCallout: 'none',
+      WebkitUserSelect: 'none',
+      userSelect: 'none',
+    }),
   },
   gameUI: {
     position: 'absolute',
-    top: 15,
-    right: 15,
+    top: Platform.OS === 'web' ? '3%' : 15,
+    right: Platform.OS === 'web' ? '3%' : 15,
     alignItems: 'flex-end',
     pointerEvents: 'box-none',
     maxWidth: 120,
     zIndex: 200,
-    // Ensure it stays within container
-    maxHeight: '40%',
+    // Ensure it stays within container on mobile
+    maxHeight: '35%',
   },
   scoreContainer: {
     paddingHorizontal: 12,
@@ -928,8 +962,8 @@ const styles = StyleSheet.create({
   },
   inGamePauseButtonContainer: {
     position: 'absolute',
-    bottom: '5%', // Use percentage for better responsive positioning
-    left: '5%',   // Use percentage for better responsive positioning
+    bottom: Platform.OS === 'web' ? '8%' : 20, // Better mobile positioning
+    left: Platform.OS === 'web' ? '5%' : 20,   // Better mobile positioning
     zIndex: 1000,
     // Ensure it stays within container bounds
     maxWidth: 50,
