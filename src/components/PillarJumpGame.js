@@ -739,16 +739,19 @@ export default function PillarJumpGame() {
               </View>
             </View>
 
-            {/* AdSense Banner - Only on Web, hidden on very small screens */}
-            {screenHeight > 600 && (
+            {/* AdSense Banner - Responsive sizing */}
+            {(screenWidth >= 768 || screenHeight > 600) && (
               <BannerAd 
                 testMode={false} // Set to true for testing
                 style={{
                   backgroundColor: 'rgba(0, 0, 0, 0.2)',
                   borderColor: colorToHex(currentTheme.ball) + '30',
                   borderWidth: 1,
-                  marginVertical: 4, // Reduced spacing
-                  maxHeight: 50, // Limit height on mobile
+                  // Desktop: Normal spacing, Mobile: Reduced spacing
+                  marginVertical: screenWidth >= 768 ? 12 : 4,
+                  // Desktop: Normal height, Mobile: Limited height
+                  maxHeight: screenWidth >= 768 ? 90 : 50,
+                  minHeight: screenWidth >= 768 ? 70 : 40,
                 }}
               />
             )}
@@ -968,8 +971,10 @@ const styles = StyleSheet.create({
   },
   inGamePauseButtonContainer: {
     position: 'absolute',
-    bottom: Platform.OS === 'web' ? '8%' : 20, // Better mobile positioning
-    left: Platform.OS === 'web' ? '5%' : 20,   // Better mobile positioning
+    // Mobile: Higher position to avoid browser tab bars
+    // Desktop: Lower position for better UX
+    bottom: Platform.OS === 'web' ? (screenWidth < 768 ? '15%' : '5%') : 20,
+    left: Platform.OS === 'web' ? '5%' : 20,
     zIndex: 1000,
     // Ensure it stays within container bounds
     maxWidth: 50,
@@ -977,7 +982,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // Pause screen styles - Mobile optimized
+  // Pause screen styles - Responsive for desktop and mobile
   pauseOverlay: {
     position: 'absolute',
     top: 0,
@@ -986,7 +991,8 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 8, // Reduced from 15
+    // Desktop: More padding, Mobile: Less padding
+    padding: Platform.OS === 'web' ? (screenWidth >= 768 ? 20 : 8) : 15,
     zIndex: 1000,
     boxSizing: 'border-box',
   },
@@ -995,41 +1001,49 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    // Enable scrolling on mobile when content overflows
+    // Enable scrolling when content overflows
     ...(Platform.OS === 'web' && {
       overflowY: 'auto',
-      maxHeight: '90vh', // Account for mobile browser UI
+      // Desktop: Full height, Mobile: Account for browser UI
+      maxHeight: screenWidth >= 768 ? '95vh' : '85vh',
     }),
   },
   pauseContent: {
     alignItems: 'center',
-    maxWidth: 280,
+    // Desktop: Larger, Mobile: Compact
+    maxWidth: Platform.OS === 'web' ? (screenWidth >= 768 ? 450 : 280) : 320,
     width: '90%',
-    // Compact spacing for mobile
-    paddingVertical: 10,
+    // Desktop: More spacing, Mobile: Compact
+    paddingVertical: Platform.OS === 'web' ? (screenWidth >= 768 ? 20 : 10) : 15,
   },
   pauseTitle: {
-    fontSize: 20, // Reduced from 24
+    // Desktop: Larger, Mobile: Compact
+    fontSize: Platform.OS === 'web' ? (screenWidth >= 768 ? 32 : 20) : 24,
     fontWeight: '700',
-    marginBottom: 8, // Reduced from 12
+    // Desktop: More margin, Mobile: Less margin
+    marginBottom: Platform.OS === 'web' ? (screenWidth >= 768 ? 16 : 8) : 12,
     textAlign: 'center',
-    letterSpacing: -0.4, // Reduced letter spacing
+    letterSpacing: Platform.OS === 'web' ? (screenWidth >= 768 ? -0.8 : -0.4) : -0.6,
     fontFamily: Platform.OS === 'ios' ? 'SF Pro Display' : 'System',
   },
   pauseStatsContainer: {
     width: '100%',
-    marginBottom: 12, // Reduced from 20
-    padding: 12, // Reduced from 16
-    borderRadius: 10, // Reduced from 12
+    // Desktop: More margin, Mobile: Less margin
+    marginBottom: Platform.OS === 'web' ? (screenWidth >= 768 ? 20 : 12) : 16,
+    // Desktop: More padding, Mobile: Less padding
+    padding: Platform.OS === 'web' ? (screenWidth >= 768 ? 20 : 12) : 16,
+    borderRadius: Platform.OS === 'web' ? (screenWidth >= 768 ? 16 : 10) : 12,
     backgroundColor: 'rgba(0, 122, 255, 0.08)',
     borderWidth: 0.5,
     borderColor: 'rgba(0, 122, 255, 0.2)',
-    backdropFilter: Platform.OS === 'web' ? 'blur(10px)' : undefined, // Reduced blur
+    // Desktop: More blur, Mobile: Less blur
+    backdropFilter: Platform.OS === 'web' ? (screenWidth >= 768 ? 'blur(20px)' : 'blur(10px)') : undefined,
   },
   pauseStatsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 6, // Reduced from 10
+    // Desktop: More margin, Mobile: Less margin
+    marginBottom: Platform.OS === 'web' ? (screenWidth >= 768 ? 12 : 6) : 8,
   },
   pauseStatItem: {
     alignItems: 'center',
@@ -1051,20 +1065,26 @@ const styles = StyleSheet.create({
   },
   pausePrimaryActions: {
     width: '100%',
-    gap: 12,
-    marginBottom: 18,
+    // Desktop: More gap, Mobile: Less gap
+    gap: Platform.OS === 'web' ? (screenWidth >= 768 ? 16 : 12) : 14,
+    // Desktop: More margin, Mobile: Less margin
+    marginBottom: Platform.OS === 'web' ? (screenWidth >= 768 ? 24 : 18) : 20,
   },
   primaryButton: {
-    marginBottom: 8,
+    // Desktop: More margin, Mobile: Less margin
+    marginBottom: Platform.OS === 'web' ? (screenWidth >= 768 ? 12 : 8) : 10,
     alignSelf: 'center',
   },
   themeControls: {
     width: '100%',
     alignItems: 'center',
-    marginBottom: 16,
-    padding: 14,
-    backgroundColor: 'rgba(142, 142, 147, 0.06)', // iOS Gray tint
-    borderRadius: 12,
+    // Desktop: More margin, Mobile: Less margin
+    marginBottom: Platform.OS === 'web' ? (screenWidth >= 768 ? 20 : 16) : 18,
+    // Desktop: More padding, Mobile: Less padding
+    padding: Platform.OS === 'web' ? (screenWidth >= 768 ? 18 : 14) : 16,
+    backgroundColor: 'rgba(142, 142, 147, 0.06)',
+    // Desktop: Larger radius, Mobile: Smaller radius
+    borderRadius: Platform.OS === 'web' ? (screenWidth >= 768 ? 16 : 12) : 14,
     borderWidth: 0.5,
     borderColor: 'rgba(142, 142, 147, 0.15)',
     backdropFilter: Platform.OS === 'web' ? 'blur(20px)' : undefined,

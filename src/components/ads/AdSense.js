@@ -78,24 +78,24 @@ export default function AdSense({
   return (
     <View style={[{ 
       width: '100%', 
-      minHeight: 50, // Reduced from 90
-      maxHeight: 60, // Limit height for mobile
+      minHeight: style?.minHeight || 50,
+      maxHeight: style?.maxHeight || 60,
       alignItems: 'center', 
       justifyContent: 'center',
-      marginVertical: 6 // Reduced from 10
+      marginVertical: style?.marginVertical || 6
     }, style]}>
       <div
         ref={adRef}
         style={{
           width: '100%',
           textAlign: 'center',
-          minHeight: '50px', // Reduced from 90px
-          maxHeight: '60px', // Limit height for mobile
+          minHeight: (style?.minHeight || 50) + 'px',
+          maxHeight: (style?.maxHeight || 60) + 'px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          overflow: 'hidden' // Prevent content overflow
+          overflow: 'hidden'
         }}
       >
         <ins
@@ -104,8 +104,8 @@ export default function AdSense({
             display: 'block',
             width: '100%',
             height: 'auto',
-            minHeight: '50px', // Reduced from 90px
-            maxHeight: '60px'  // Limit height for mobile
+            minHeight: (style?.minHeight || 50) + 'px',
+            maxHeight: (style?.maxHeight || 60) + 'px'
           }}
           data-ad-client="ca-pub-8069198795330862"
           data-ad-slot={adSlot}
@@ -133,9 +133,12 @@ export default function AdSense({
 }
 
 /**
- * Banner Ad Component - Mobile-optimized for pause screen
+ * Banner Ad Component - Responsive for desktop and mobile
  */
 export function BannerAd({ style, testMode = false }) {
+  const { width: screenWidth } = require('react-native').Dimensions.get('window');
+  const isDesktop = screenWidth >= 768;
+  
   return (
     <AdSense
       adSlot="auto"
@@ -144,11 +147,11 @@ export function BannerAd({ style, testMode = false }) {
       testMode={testMode}
       style={[{
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        borderRadius: 6,
-        padding: 4, // Reduced from 8
-        marginVertical: 8, // Reduced from 16
-        maxHeight: 60, // Limit height on mobile
-        minHeight: 50, // Reduced from 90
+        borderRadius: isDesktop ? 10 : 6,
+        padding: isDesktop ? 8 : 4,
+        marginVertical: isDesktop ? 12 : 6,
+        maxHeight: isDesktop ? 90 : 60,
+        minHeight: isDesktop ? 70 : 50,
       }, style]}
     />
   );
