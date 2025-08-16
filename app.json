@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Pillar Valley",
-    "slug": "pillar-valley",
+    "name": "Pillar Valley 3D",
+    "slug": "pillar-valley-3D",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -11,7 +11,7 @@
     "splash": {
       "image": "./src/assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,7 +24,7 @@
     "ios": {
       "supportsTablet": true,
       "orientation": "portrait",
-      "bundleIdentifier": "com.yourcompany.pillarvalley3d",
+      "bundleIdentifier": "com.pillarvalley3d",
       "icon": "./src/assets/logo.png",
       "infoPlist": {
         "UIStatusBarHidden": false,
@@ -41,7 +41,7 @@
       "splash": {
         "image": "./src/assets/splash.png",
         "resizeMode": "cover",
-        "backgroundColor": "#ffffff",
+        "backgroundColor": "#000000",
         "dark": {
           "image": "./src/assets/splash.png",
           "resizeMode": "cover",
