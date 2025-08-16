@@ -703,10 +703,11 @@ export default function PillarJumpGame() {
         </View>
       )}
 
-      {/* Enhanced Pause Screen */}
+      {/* Enhanced Pause Screen - Mobile Optimized */}
       {game.playing && game.paused && (
         <View style={[styles.pauseOverlay, { backgroundColor: colorToHex(currentTheme.bg) + '95' }]}>
-          <View style={styles.pauseContent}>
+          <View style={styles.pauseScrollContainer}>
+            <View style={styles.pauseContent}>
             <Text style={[styles.pauseTitle, { color: colorToHex(currentTheme.ball) }]}>
               GAME PAUSED
             </Text>
@@ -738,15 +739,19 @@ export default function PillarJumpGame() {
               </View>
             </View>
 
-            {/* AdSense Banner - Only on Web */}
-            <BannerAd 
-              testMode={false} // Set to true for testing
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                borderColor: colorToHex(currentTheme.ball) + '30',
-                borderWidth: 1
-              }}
-            />
+            {/* AdSense Banner - Only on Web, hidden on very small screens */}
+            {screenHeight > 600 && (
+              <BannerAd 
+                testMode={false} // Set to true for testing
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  borderColor: colorToHex(currentTheme.ball) + '30',
+                  borderWidth: 1,
+                  marginVertical: 4, // Reduced spacing
+                  maxHeight: 50, // Limit height on mobile
+                }}
+              />
+            )}
 
             {/* Primary Action Buttons */}
             <View style={styles.pausePrimaryActions}>
@@ -805,6 +810,7 @@ export default function PillarJumpGame() {
                 'Touch and hold to see projection • Release to jump • Themes change every 10 points'
               }
             </Text>
+            </View>
           </View>
         </View>
       )}
@@ -971,7 +977,7 @@ const styles = StyleSheet.create({
   },
 
 
-  // Pause screen styles
+  // Pause screen styles - Mobile optimized
   pauseOverlay: {
     position: 'absolute',
     top: 0,
@@ -980,37 +986,50 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 15,
+    padding: 8, // Reduced from 15
     zIndex: 1000,
     boxSizing: 'border-box',
+  },
+  pauseScrollContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // Enable scrolling on mobile when content overflows
+    ...(Platform.OS === 'web' && {
+      overflowY: 'auto',
+      maxHeight: '90vh', // Account for mobile browser UI
+    }),
   },
   pauseContent: {
     alignItems: 'center',
     maxWidth: 280,
     width: '90%',
+    // Compact spacing for mobile
+    paddingVertical: 10,
   },
   pauseTitle: {
-    fontSize: 24,
+    fontSize: 20, // Reduced from 24
     fontWeight: '700',
-    marginBottom: 12,
+    marginBottom: 8, // Reduced from 12
     textAlign: 'center',
-    letterSpacing: -0.6, // Apple's letter spacing for large text
+    letterSpacing: -0.4, // Reduced letter spacing
     fontFamily: Platform.OS === 'ios' ? 'SF Pro Display' : 'System',
   },
   pauseStatsContainer: {
     width: '100%',
-    marginBottom: 20,
-    padding: 16,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0, 122, 255, 0.08)', // iOS Blue tint
+    marginBottom: 12, // Reduced from 20
+    padding: 12, // Reduced from 16
+    borderRadius: 10, // Reduced from 12
+    backgroundColor: 'rgba(0, 122, 255, 0.08)',
     borderWidth: 0.5,
     borderColor: 'rgba(0, 122, 255, 0.2)',
-    backdropFilter: Platform.OS === 'web' ? 'blur(20px)' : undefined,
+    backdropFilter: Platform.OS === 'web' ? 'blur(10px)' : undefined, // Reduced blur
   },
   pauseStatsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 6, // Reduced from 10
   },
   pauseStatItem: {
     alignItems: 'center',
