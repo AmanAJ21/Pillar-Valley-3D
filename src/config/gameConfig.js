@@ -13,27 +13,27 @@ const isHighEnd = isWeb || isTablet || (width * height > 800000);
 export const PERFORMANCE = {
   // Geometry quality - unified high quality for modern devices
   GEOMETRY_SEGMENTS: isHighEnd ? 24 : (isTablet ? 16 : 12),
-  
+
   // Rendering quality - better mobile experience
   PIXEL_RATIO: isWeb ? Math.min((typeof window !== 'undefined' && window.devicePixelRatio) || 1, 2) : Math.min(2, 1.5),
-  
+
   // Frame rate targets - aim higher for mobile
   TARGET_FPS: isHighEnd ? 60 : 45,
-  
+
   // Shadow quality - enable for tablets and high-end phones
   SHADOW_MAP_SIZE: isHighEnd ? (isWeb ? 2048 : 1024) : (isTablet ? 1024 : 512),
-  
+
   // Antialiasing - enable for better visual quality
   ANTIALIAS: isHighEnd,
-  
+
   // Precision - better quality for modern devices
   PRECISION: isHighEnd ? 'highp' : 'mediump',
-  
+
   // Effects - enable more effects on mobile for web-like experience
   ENABLE_SHADOWS: isHighEnd || isTablet,
   ENABLE_FOG: true,
   ENABLE_BLOOM: isHighEnd,
-  
+
   // LOD (Level of Detail)
   PILLAR_LOD_DISTANCE: 50,
   BALL_LOD_DISTANCE: 30
@@ -82,26 +82,26 @@ export const CONFIG = {
 // BEAUTIFUL MODERN COLOR THEMES
 // ═══════════════════════════════════════════════════════════════════════════════
 export const COLOR_SCHEMES = [
-  { bg: 0x0a0a0f, pillar: 0x1a1a2e, ball: 0x00d4ff, name: 'Midnight Ocean', description: 'Deep blue serenity' },
-  { bg: 0x1a0033, pillar: 0x2d1b69, ball: 0xff6b9d, name: 'Cosmic Rose', description: 'Galactic romance' },
-  { bg: 0x0f0f23, pillar: 0x16213e, ball: 0x7c3aed, name: 'Deep Purple', description: 'Royal elegance' },
-  { bg: 0x001122, pillar: 0x003366, ball: 0x00ff88, name: 'Neon Matrix', description: 'Digital awakening' },
-  { bg: 0x2d1b00, pillar: 0x4a2c00, ball: 0xffa500, name: 'Golden Hour', description: 'Sunset warmth' },
-  { bg: 0x1e0a2e, pillar: 0x3d1a78, ball: 0xff3366, name: 'Electric Dreams', description: 'Vibrant energy' },
-  { bg: 0x0d1421, pillar: 0x1e3a8a, ball: 0x00ffff, name: 'Cyber Blue', description: 'Future tech' },
-  { bg: 0x2a0845, pillar: 0x4c1d95, ball: 0xfbbf24, name: 'Royal Sunset', description: 'Majestic twilight' },
-  { bg: 0x0c1618, pillar: 0x1f2937, ball: 0x10b981, name: 'Forest Night', description: 'Nature\'s calm' },
-  { bg: 0x1f1f1f, pillar: 0x374151, ball: 0xf59e0b, name: 'Urban Glow', description: 'City lights' },
-  { bg: 0x450a0a, pillar: 0x7f1d1d, ball: 0xff6b6b, name: 'Crimson Fire', description: 'Passionate flame' },
-  { bg: 0x0a2540, pillar: 0x1e40af, ball: 0x60a5fa, name: 'Arctic Blue', description: 'Frozen beauty' },
-  { bg: 0x1a202c, pillar: 0x2d3748, ball: 0x9f7aea, name: 'Twilight Mist', description: 'Evening magic' },
-  { bg: 0x2d0a54, pillar: 0x5b21b6, ball: 0xc084fc, name: 'Mystic Purple', description: 'Enchanted realm' },
-  { bg: 0x0f2027, pillar: 0x203a43, ball: 0x2dd4bf, name: 'Ocean Depths', description: 'Aquatic mystery' },
-  { bg: 0x3c1810, pillar: 0x7c2d12, ball: 0xfb923c, name: 'Autumn Blaze', description: 'Fall splendor' },
-  { bg: 0x1c1c1e, pillar: 0x2c2c2e, ball: 0x007aff, name: 'Classic Dark', description: 'Timeless style' },
-  { bg: 0xf2f2f7, pillar: 0xe5e5ea, ball: 0x007aff, name: 'Pure Light', description: 'Clean minimalism' },
-  { bg: 0x0a0a0a, pillar: 0x1c1c1e, ball: 0x30d158, name: 'Matrix Green', description: 'Code reality' },
-  { bg: 0x2a1810, pillar: 0x451a03, ball: 0xf97316, name: 'Desert Storm', description: 'Sandy adventure' }
+  { bg: 0x0a0a0f, pillar: 0x4a5568, ball: 0x00d4ff, name: 'Midnight Ocean', description: 'Deep blue serenity' },
+  { bg: 0x1a0033, pillar: 0x805ad5, ball: 0xff6b9d, name: 'Cosmic Rose', description: 'Galactic romance' },
+  { bg: 0x0f0f23, pillar: 0x667eea, ball: 0x7c3aed, name: 'Deep Purple', description: 'Royal elegance' },
+  { bg: 0x001122, pillar: 0x4299e1, ball: 0x00ff88, name: 'Neon Matrix', description: 'Digital awakening' },
+  { bg: 0x2d1b00, pillar: 0xd69e2e, ball: 0xffa500, name: 'Golden Hour', description: 'Sunset warmth' },
+  { bg: 0x1e0a2e, pillar: 0x9f7aea, ball: 0xff3366, name: 'Electric Dreams', description: 'Vibrant energy' },
+  { bg: 0x0d1421, pillar: 0x63b3ed, ball: 0x00ffff, name: 'Cyber Blue', description: 'Future tech' },
+  { bg: 0x2a0845, pillar: 0xa78bfa, ball: 0xfbbf24, name: 'Royal Sunset', description: 'Majestic twilight' },
+  { bg: 0x0c1618, pillar: 0x68d391, ball: 0x10b981, name: 'Forest Night', description: 'Nature\'s calm' },
+  { bg: 0x1f1f1f, pillar: 0x718096, ball: 0xf59e0b, name: 'Urban Glow', description: 'City lights' },
+  { bg: 0x450a0a, pillar: 0xfc8181, ball: 0xff6b6b, name: 'Crimson Fire', description: 'Passionate flame' },
+  { bg: 0x0a2540, pillar: 0x90cdf4, ball: 0x60a5fa, name: 'Arctic Blue', description: 'Frozen beauty' },
+  { bg: 0x1a202c, pillar: 0x9ca3af, ball: 0x9f7aea, name: 'Twilight Mist', description: 'Evening magic' },
+  { bg: 0x2d0a54, pillar: 0xc084fc, ball: 0xe879f9, name: 'Mystic Purple', description: 'Enchanted realm' },
+  { bg: 0x0f2027, pillar: 0x5eead4, ball: 0x2dd4bf, name: 'Ocean Depths', description: 'Aquatic mystery' },
+  { bg: 0x3c1810, pillar: 0xfbb6ce, ball: 0xfb923c, name: 'Autumn Blaze', description: 'Fall splendor' },
+  { bg: 0x1c1c1e, pillar: 0x6b7280, ball: 0x007aff, name: 'Classic Dark', description: 'Timeless style' },
+  { bg: 0xf2f2f7, pillar: 0x9ca3af, ball: 0x007aff, name: 'Pure Light', description: 'Clean minimalism' },
+  { bg: 0x0a0a0a, pillar: 0x4ade80, ball: 0x30d158, name: 'Matrix Green', description: 'Code reality' },
+  { bg: 0x2a1810, pillar: 0xfed7aa, ball: 0xf97316, name: 'Desert Storm', description: 'Sandy adventure' }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -112,12 +112,12 @@ export const MOBILE_OPTIMIZATIONS = {
   MAX_GEOMETRY_POOL_SIZE: 50,
   MAX_MATERIAL_POOL_SIZE: 30,
   MEMORY_CLEANUP_INTERVAL: 5000, // 5 seconds
-  
+
   // Performance monitoring
   PERFORMANCE_CHECK_INTERVAL: 1000, // 1 second
   TARGET_FRAME_TIME: 16.67, // 60fps
   PERFORMANCE_ADJUSTMENT_COOLDOWN: 2000, // 2 seconds
-  
+
   // Quality settings
   QUALITY_LEVELS: {
     LOW: {
@@ -142,7 +142,7 @@ export const MOBILE_OPTIMIZATIONS = {
       pixelRatio: 2
     }
   },
-  
+
   // LOD settings
   LOD_DISTANCES: {
     PILLAR_NEAR: 25,
