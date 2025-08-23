@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "Pillar Valley 3D",
+    "slug": "pillar-valley-3D",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#ffffff",
+    "statusBarHidden": false,
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "orientation": "portrait",
+      "bundleIdentifier": "com.pillarvalley3d",
+      "icon": "./src/assets/logo.png",
+      "infoPlist": {
+        "UIStatusBarHidden": false,
+        "UIViewControllerBasedStatusBarAppearance": true
+      }
+    },
+    "android": {
+      "orientation": "portrait",
+      "package": "com.pillarvalley3d",
+      "icon": "./src/assets/logo.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/logo.png"
+      },
+      "splash": {
+        "image": "./src/assets/splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#000000",
+        "dark": {
+          "image": "./src/assets/splash.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#000000"
+        }
+      },
+      "navigationBar": {
+        "visible": "immersive"
+      },
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "web": {
+      "orientation": "portrait",
+      "favicon": "./src/assets/icon.png",
+      "bundler": "metro",
+      "build": {
+        "babel": {
+          "include": [
+            "react-native-vector-icons"
+          ]
+        }
+      }
+    }
+  }
+}
